@@ -10,52 +10,30 @@ This is a meta-specification: it specifies how to write specifications, includin
 
 A specification captures **sufficient semantic information** to enable reconstruction of functionally equivalent implementations, without prescribing unnecessary detail.
 
-**Given** a specification and a competent interpreter  
-**When** the interpreter generates an implementation  
-**Then** the implementation fulfills all stated requirements  
-**And** the implementation may differ in unstated details
+Implementations that satisfy all stated requirements are correct, regardless of how they differ in unstated aspects.
 
-### 2. Hierarchical Decomposition
+### 2. Intent Precedes Mechanism
 
-Specifications organize information in layers of abstraction. Each layer provides coherent understanding at its level and references finer detail as needed.
+Specifications state desired outcomes. Mechanisms appear only when they are genuine requirements.
 
-**Given** a reader at any layer  
-**When** they need finer detail  
-**Then** the specification either provides it or references where to find it
+### 3. Precision Where Ambiguity Is Costly
 
-### 3. Intent Precedes Mechanism
+Natural language provides context; formal structures provide precision. Formalize what must be unambiguous. Use prose for motivation and rationale.
 
-Specifications state desired outcomes before constraints on how to achieve them. Mechanisms appear only when they are genuine requirements.
+### 4. Verifiability
 
-### 4. Formalization Where Ambiguity Is Costly
-
-Natural language provides context; formal structures provide precision. Formalize what must be unambiguous (rules, contracts, thresholds). Use prose for motivation, rationale, and examples.
-
-### 5. Verifiable Success Criteria
-
-Every specification includes criteria that determine whether an implementation is compliant.
-
-**Given** a claimed implementation  
-**When** validation is performed  
-**Then** compliance is determinable without ambiguity
-
-### 6. Evolvability
-
-Specifications evolve with understanding. When reality diverges from specification, the specification is updated to reflect validated knowledge.
+Every requirement has criteria that determine compliance. If compliance cannot be assessed, the requirement is incomplete.
 
 ## Anti-Patterns
 
 | Anti-Pattern | Problem |
 |--------------|---------|
-| Implementation as spec | Prescribes mechanism instead of outcome |
-| Untestable requirements | No objective way to verify compliance |
 | Hidden assumptions | Relies on unstated conditions |
 | Specification by example only | Examples without underlying rule |
 | Orphaned details | Elements without traceable purpose |
 
 ## Success Criteria
 
-**Given** a specification following these principles  
-**When** an interpreter implements it  
-**Then** the implementation fulfills stated intent  
-**And** compliance is verifiable
+A specification is complete when:
+- An interpreter can produce a compliant implementation without requiring clarification
+- Compliance is objectively determinable
