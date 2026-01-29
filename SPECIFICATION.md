@@ -6,7 +6,7 @@ A specification captures intent. It defines _what_ a system should achieve and _
 
 ### 1. Semantic Completeness
 
-A specification captures **sufficient semantic information** to enable reconstruction of functionally equivalent implementations.
+A specification captures **sufficient semantic information** to enable reconstruction of functionally equivalent implementations, constraining only what correctness requires.
 
 ### 2. Intent Precedes Mechanism
 
