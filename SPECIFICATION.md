@@ -12,7 +12,7 @@ Implementations that satisfy all stated requirements are correct, regardless of 
 
 ### 2. Intent Precedes Mechanism
 
-Specifications state desired outcomes. Mechanisms appear only when they are genuine requirements.
+Specifications state desired outcomes. Mechanisms appear only when required.
 
 ### 3. Precision Where Ambiguity Is Costly
 
@@ -25,5 +25,5 @@ Every requirement has criteria that determine compliance.
 ## Anti-Patterns
 
 - **Hidden assumptions**: unstated conditions that affect correctness
-- **Specification by example only**: examples without the underlying rule they illustrate
+- **Specification by example only**: examples without the underlying rule
 - **Orphaned details**: elements without traceable purpose
