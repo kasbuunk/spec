@@ -1,6 +1,6 @@
 # Specification for Creating Effective Specifications
 
-> **Version**: 1.0.0  
+> **Version**: 1.1.0  
 > **Status**: Active  
 > **Last Updated**: 2026-01-29
 
@@ -9,17 +9,19 @@
 1. [Intent](#intent)
 2. [Scope & Boundaries](#scope--boundaries)
 3. [Stakeholders](#stakeholders)
-4. [Quality Attributes](#quality-attributes)
-5. [Core Principles](#core-principles)
-6. [Structure of a Specification](#structure-of-a-specification)
-7. [Specification Boundaries & References](#specification-boundaries--references)
-8. [Synthesis from Existing Systems](#synthesis-from-existing-systems)
-9. [Calibrating Specificity](#calibrating-specificity)
-10. [Anti-Patterns](#anti-patterns)
-11. [Constraints & Assumptions](#constraints--assumptions)
-12. [Evolvability](#evolvability)
-13. [Success Criteria](#success-criteria-self-referential)
-14. [References](#references)
+4. [Glossary](#glossary)
+5. [Quality Attributes](#quality-attributes)
+6. [Core Principles](#core-principles)
+7. [Structure of a Specification](#structure-of-a-specification)
+8. [Specification Boundaries & References](#specification-boundaries--references)
+9. [Synthesis from Existing Systems](#synthesis-from-existing-systems)
+10. [Calibrating Specificity](#calibrating-specificity)
+11. [Anti-Patterns](#anti-patterns)
+12. [Constraints & Assumptions](#constraints--assumptions)
+13. [Evolvability](#evolvability)
+14. [Success Criteria](#success-criteria-self-referential)
+15. [Changelog](#changelog)
+16. [References](#references)
 
 ---
 
@@ -43,7 +45,13 @@ This specification defines how to construct specifications that effectively capt
 - Tooling and format standards (Markdown conventions, diagram notations)
 - Governance and versioning workflows
 
-**Target length guidance**: A specification should be readable in one sitting by its intended audience. For a meta-spec like this: ~1500-2500 words. For system specs: scale with complexity, but prefer multiple linked specs over monolithic documents.
+**What a specification is NOT:**
+- **Not a tutorial**: Teaches readers how to use a system — a spec defines what the system does
+- **Not a design document**: Explores trade-offs and alternatives — a spec captures the chosen intent
+- **Not implementation notes**: Describes how code works — a spec describes what it should achieve
+- **Not a requirements list**: Unstructured feature requests — a spec is structured, bounded, and testable
+
+**Target length guidance**: A specification SHOULD be readable in one sitting by its intended audience. For a meta-spec like this: ~1500-3000 words. For system specs: scale with complexity, but prefer multiple linked specs over monolithic documents.
 
 ## Stakeholders
 
@@ -54,6 +62,17 @@ This specification defines how to construct specifications that effectively capt
 | **Reviewers & Auditors** | Need to validate spec quality | Provides success criteria and checklists |
 | **System Architects** | Need to decompose complexity | Covers hierarchical decomposition and boundaries |
 | **Domain Experts** | Need specs to capture business intent | Prioritizes "what" and "why" over "how" |
+
+## Glossary
+
+| Term | Definition |
+|------|------------|
+| **Bounded Context** | A distinct area of a system with its own consistent model and language; changes within a context should not require changes in others |
+| **Semantic Completeness** | Having sufficient meaning and intent captured that functionally equivalent implementations can be derived |
+| **BDD (Behavior-Driven Development)** | A specification approach using Given/When/Then scenarios to describe behavior in a testable format |
+| **Quality Attribute** | A non-functional characteristic describing how a system behaves (e.g., performance, security, maintainability) |
+| **Specification** | A document capturing the intent, constraints, and acceptance criteria for a system or component—distinct from tutorials, design documents, or implementation notes |
+| **Meta-specification** | A specification that defines how to write specifications, including itself |
 
 ## Quality Attributes
 
@@ -113,7 +132,7 @@ Natural language provides context; formal structures provide precision.
 
 ### 5. Verifiable Success Criteria
 
-Every specification includes objective criteria to validate implementations.
+Every specification MUST include objective criteria to validate implementations.
 
 **Given** a claimed implementation  
 **When** validation is performed  
@@ -125,6 +144,31 @@ Every specification includes objective criteria to validate implementations.
 - **Non-functional**: Does it meet quality thresholds? (Metrics)
 - **Structural**: Does it follow required patterns? (Architecture review)
 - **Negative**: Does it avoid prohibited behaviors? (Anti-pattern checks)
+
+### 6. Validation Through Feedback Loops
+
+Specifications are hypotheses about intent that MUST be validated against reality.
+
+**Given** an implementation derived from a specification  
+**When** the implementation is tested or deployed  
+**Then** discrepancies between specification and reality are captured  
+**And** specifications are updated to reflect validated understanding
+
+**Feedback sources:**
+- **Implementation friction**: Where implementers struggle or guess indicates underspecification
+- **Test failures**: Reveal ambiguities or contradictions in requirements
+- **Production incidents**: Expose hidden assumptions or missing edge cases
+- **Stakeholder review**: Confirms intent is accurately captured
+
+### Principle Precedence
+
+When principles conflict, resolve in this order:
+1. **Verifiable Success Criteria** — without this, nothing else can be validated
+2. **Semantic Completeness** — intent must be capturable
+3. **Intent Precedes Mechanism** — preserve flexibility
+4. **Validation Through Feedback** — iterate toward correctness
+5. **Hierarchical Decomposition** — manage complexity
+6. **Formalization Where Costly** — apply rigor proportionally
 
 ## Structure of a Specification
 
@@ -147,7 +191,7 @@ Explicit priorities for non-functional characteristics:
 **Specify trade-off order explicitly**: e.g., "Reliability > Performance > Features" prevents ambiguity when trade-offs arise during implementation.
 
 #### 3. Acceptance Criteria
-Formal, executable specifications of critical behaviors:
+Formal, executable specifications of critical behaviors. Acceptance criteria MUST be testable—if you cannot write a test for it, reformulate.
 
 ```gherkin
 Feature: [Capability being specified]
@@ -160,6 +204,24 @@ Feature: [Capability being specified]
 ```
 
 **Coverage guideline**: The 20% of behaviors representing 80% of value and risk. Prioritize edge cases and failure modes over happy paths.
+
+**Example** (for this meta-specification):
+
+```gherkin
+Feature: Specification completeness validation
+  
+  Scenario: Verify required sections exist
+    Given a specification claims to follow this meta-spec
+    When a reviewer checks its structure
+    Then it contains Intent & Scope, Quality Attributes, Acceptance Criteria, and Constraints
+    And each section is non-empty and relevant to the domain
+  
+  Scenario: Validate acceptance criteria are testable
+    Given acceptance criteria are stated
+    When an implementer reads them
+    Then each criterion can be converted to an automated or manual test
+    And no criterion requires subjective judgment without defined rubrics
+```
 
 #### 4. Constraints & Assumptions
 - Technical, resource, and regulatory constraints
@@ -313,16 +375,26 @@ This meta-specification must satisfy its own criteria. Validation:
 
 ### For This Meta-Specification Itself
 
-| Criterion | Target | Validation |
-|-----------|--------|------------|
-| Word count | 1500-2500 | Automated check |
-| Readability | Single sitting (~15min) | User feedback |
-| Self-consistency | Follows own principles | Manual review |
-| Completeness | All required sections present | Checklist |
-| Appropriate references | Defers detail to other specs | Structural review |
-| No orphaned details | All elements connect to intent | Traceability |
+| Criterion | Target | Status | Validation Method |
+|-----------|--------|--------|-------------------|
+| Word count | 1500-3000 | ✓ ~2750 | `wc -w SPECIFICATION.md` |
+| Readability | Single sitting (~15min) | ✓ | User feedback |
+| Self-consistency | Follows own principles | ✓ | All 6 principles applied |
+| Required sections | All present | ✓ | Checklist below |
+| Glossary | Terms defined | ✓ | Added in v1.1.0 |
+| Principle precedence | Ordering defined | ✓ | Added in v1.1.0 |
+| Appropriate references | Defers detail to other specs | ✓ | Synthesis, Tooling, Governance referenced |
+| No orphaned details | All elements connect to intent | ✓ | Traceability review |
 
-**Current assessment**: This spec references synthesis process as external, defines its own scope and boundaries, uses formalization appropriately (tables, BDD), and prioritizes intent over mechanism.
+**Required sections checklist**:
+- [x] Intent & Scope
+- [x] Stakeholders
+- [x] Glossary
+- [x] Quality Attributes
+- [x] Acceptance Criteria (BDD examples throughout)
+- [x] Constraints & Assumptions
+- [x] Success Criteria
+- [x] Changelog
 
 ---
 
@@ -330,10 +402,13 @@ This meta-specification must satisfy its own criteria. Validation:
 
 This specification practices what it preaches:
 - Hierarchy: context → principles → structure → calibration → validation
-- BDD criteria throughout
+- BDD criteria throughout with concrete examples
 - Intent before mechanism
 - Tables for structured comparisons, prose for explanation
 - Explicit anti-patterns and self-referential success criteria
+- Glossary for cross-functional clarity
+- Changelog for evolution tracking
+- RFC 2119 keywords (MUST, SHOULD) for requirement levels
 
 **Adapt, don't follow dogmatically.** Different domains require calibration of these principles.
 
@@ -349,3 +424,10 @@ This specification practices what it preaches:
 - `SYNTHESIS.md` — Extracting specifications from existing systems
 - `TOOLING.md` — Formats, linting, templates, and automation
 - `GOVERNANCE.md` — Versioning workflows, approval processes, ownership
+
+## Changelog
+
+| Version | Date | Changes |
+|---------|------|---------|
+| 1.1.0 | 2026-01-29 | Added Glossary section; added Principle 6 (Feedback Loops); added principle precedence ordering; expanded "what a specification is NOT"; added concrete BDD examples; converted success criteria to measurable status table; added this Changelog |
+| 1.0.0 | 2026-01-29 | Initial release with core principles, structure, calibration guidance, and self-referential success criteria |
