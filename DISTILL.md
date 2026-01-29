@@ -2,7 +2,7 @@
 
 Extract the specification that a representation embodies. Given artifacts that manifest intent—source code, products, documents, recordings, interviews, observability data—distill the essential definition of what problem is solved and what value is created.
 
-Inverse of [COMPILE](COMPILE.md). The roundtrip is non-deterministic: compiling a distilled specification produces an equivalent representation, not necessarily an identical one.
+Inverse of [MANIFEST](MANIFEST.md). The roundtrip is non-deterministic: manifesting a distilled specification produces an equivalent representation, not necessarily an identical one.
 
 ## Requirements
 
@@ -16,7 +16,7 @@ Inverse of [COMPILE](COMPILE.md). The roundtrip is non-deterministic: compiling 
 - A specification that the input representations would satisfy
 - The specification captures intent, not mechanism, except where mechanism is the intent
 
-**Correctness**: Recompiling the output specification (with appropriate implementation guidance) would produce a representation functionally equivalent to the input.
+**Correctness**: Manifesting the output specification (with appropriate implementation guidance) would produce a representation functionally equivalent to the input.
 
 **Conflict resolution**: When representations contradict:
 - Observable behavior over stated intent

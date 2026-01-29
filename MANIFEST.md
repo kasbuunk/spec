@@ -1,8 +1,8 @@
-# Compile
+# Manifest
 
-Transform a specification into a representation that satisfies it. The representation may be source code, infrastructure, documentation, media, or any artifact that manifests the specified intent in a concrete form.
+Transform a specification into a representation that satisfies it. The representation may be source code, infrastructure, documentation, media, or any artifact that manifests the specified intent in concrete form.
 
-Inverse of [DISTILL](DISTILL.md). The roundtrip is non-deterministic: compiling a distilled specification produces an equivalent representation, not necessarily an identical one.
+Inverse of [DISTILL](DISTILL.md). The roundtrip is non-deterministic: manifesting a distilled specification produces an equivalent representation, not necessarily an identical one.
 
 ## Requirements
 
@@ -18,4 +18,4 @@ Inverse of [DISTILL](DISTILL.md). The roundtrip is non-deterministic: compiling 
 
 **Constraint preservation**: Implementation guidance restricts the solution space but never contradicts the specification. When guidance conflicts with the specification, the specification takes precedence.
 
-**Maximal freedom**: Absent implementation guidance, the compiler selects freely from the full space of compliant representations.
+**Maximal freedom**: Absent implementation guidance, the interpreter selects freely from the full space of compliant representations.

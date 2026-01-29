@@ -5,17 +5,17 @@ Principles for writing specifications that capture intent, not implementation.
 ## Contents
 
 - [SPECIFICATION.md](SPECIFICATION.md) — What makes a specification valid
-- [COMPILE.md](COMPILE.md) — Transform specification → representation
+- [MANIFEST.md](MANIFEST.md) — Transform specification → representation
 - [DISTILL.md](DISTILL.md) — Extract representation → specification
 
 ## Usage
 
 These documents are specifications for processes. An interpreter—human or AI—executes them.
 
-### To compile
+### To manifest
 
 Provide to the interpreter:
-1. [COMPILE.md](COMPILE.md)
+1. [MANIFEST.md](MANIFEST.md)
 2. Your specification
 3. Implementation guidance (optional)
 
