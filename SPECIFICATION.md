@@ -8,8 +8,6 @@ A specification captures intent. It defines _what_ a system should achieve and _
 
 A specification captures **sufficient semantic information** to enable reconstruction of functionally equivalent implementations.
 
-Implementations that satisfy all stated requirements are correct, regardless of how they differ in unstated aspects.
-
 ### 2. Intent Precedes Mechanism
 
 Specifications state desired outcomes. Mechanisms appear only when required.
