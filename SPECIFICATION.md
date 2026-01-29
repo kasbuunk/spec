@@ -2,356 +2,263 @@
 
 ## Intent
 
-This specification defines how to construct specifications that effectively capture system intent and enable reliable transformation between abstraction levels. It applies to any complex system—software, organizational processes, physical systems, or hybrid domains—and provides guidance for synthesizing specifications from heterogeneous source materials.
+This specification defines how to construct specifications that effectively capture system intent and enable reliable transformation between abstraction levels. It applies to any complex system—software, organizational processes, physical systems, or hybrid domains.
+
+**This is a meta-specification**: it specifies how to write specifications, including itself. Therefore, it must satisfy its own criteria.
+
+## Scope & Boundaries
+
+**This specification covers:**
+- Core principles for effective specifications
+- Required and optional structural elements
+- Calibration of detail level
+- Success criteria and anti-patterns
+
+**This specification does NOT cover (and should reference separate specs for):**
+- Domain-specific specification templates (e.g., API specs, security policies)
+- Specification synthesis processes (extracting specs from existing systems)
+- Tooling and format standards (Markdown conventions, diagram notations)
+- Governance and versioning workflows
+
+**Target length guidance**: A specification should be readable in one sitting by its intended audience. For a meta-spec like this: ~1500-2500 words. For system specs: scale with complexity, but prefer multiple linked specs over monolithic documents.
 
 ## Core Principles
 
 ### 1. Semantic Completeness Over Exhaustive Detail
 
-A good specification captures **sufficient semantic information** to enable reconstruction of functionally equivalent implementations, without prescribing every detail.
+A specification captures **sufficient semantic information** to enable reconstruction of functionally equivalent implementations, without prescribing unnecessary detail.
 
 **Given** a specification and a competent interpreter (human or AI)  
 **When** the interpreter generates an implementation  
 **Then** the implementation fulfills all critical requirements  
-**And** the implementation may differ in non-critical details from any reference implementation
+**And** the implementation may differ in non-critical details from any reference
 
-### 2. Hierarchical Decomposition
+### 2. Hierarchical Decomposition & Bounded References
 
-Specifications organize information in layers, each appropriate to its audience and purpose.
+Specifications organize information in layers. Each specification owns one bounded context and **references** (not duplicates) others for adjacent concerns.
 
-**Structural hierarchy:**
+**Structural layers:**
+- **Context**: Boundaries, stakeholders, constraints
+- **Architecture**: Components, interactions, quality attributes
+- **Domain**: Business rules, workflows, data models
+- **Detail**: Implementation constraints (only where necessary)
 
-- **Context layer**: System boundaries, stakeholders, environmental constraints
-- **Architecture layer**: Major components, interaction patterns, quality attributes
-- **Domain layer**: Business rules, workflows, data models
-- **Component layer**: Individual subsystem specifications (created as needed)
-- **Detail layer**: Implementation-specific constraints (only where necessary)
-
-**Given** a reader approaching the specification  
-**When** they read from top to bottom  
-**Then** they encounter progressively finer detail  
-**And** they can stop at any layer and have coherent understanding at that level
+**Given** a reader at any layer  
+**When** they need finer detail  
+**Then** the spec either provides it or references another spec that does  
+**And** circular references between specs are acceptable when representing genuine interdependencies
 
 ### 3. Intent Precedes Mechanism
 
-Specifications prioritize _what_ and _why_ over _how_, allowing implementation flexibility where appropriate.
+Specifications prioritize _what_ and _why_ over _how_.
 
-**Requirements should state:**
-
-- Desired outcomes and behaviors (the "what")
-- Rationale and constraints (the "why")
-- Non-negotiable mechanisms only when truly required (the "how")
+- **What**: Desired outcomes and behaviors
+- **Why**: Rationale and constraints
+- **How**: Only when mechanisms are truly non-negotiable
 
 ### 4. Formalization Where Ambiguity Is Costly
 
-Natural language prose provides context; formal structures provide precision.
+Natural language provides context; formal structures provide precision.
 
-**Use formal elements for:**
-
-- Critical business rules → BDD acceptance tests
-- Data contracts → Schemas, type definitions
-- State transitions → State diagrams, flow charts
-- Quantitative requirements → Metrics with thresholds
-- Invariants and constraints → Logical assertions
-
-**Use natural language for:**
-
-- Motivation and context
-- Design philosophy
-- Trade-off explanations
-- Examples and metaphors
+| High-cost ambiguity (formalize)     | Low-cost ambiguity (prose)     |
+| ----------------------------------- | ------------------------------ |
+| Critical business rules → BDD tests | Motivation and context         |
+| Data contracts → Schemas            | Design philosophy              |
+| State transitions → Diagrams        | Trade-off explanations         |
+| Quantitative requirements → Metrics | Examples and metaphors         |
 
 ### 5. Verifiable Success Criteria
 
 Every specification includes objective criteria to validate implementations.
 
-**Given** a claimed implementation of the specification  
+**Given** a claimed implementation  
 **When** validation is performed  
-**Then** there exists a deterministic process to assess compliance  
-**And** the criteria distinguish between acceptable and unacceptable implementations
+**Then** compliance can be assessed deterministically
 
-## Structure of a Good Specification
+**Criteria types:**
+- **Functional**: Does it do what the spec says? (BDD tests)
+- **Non-functional**: Does it meet quality thresholds? (Metrics)
+- **Structural**: Does it follow required patterns? (Architecture review)
+- **Negative**: Does it avoid prohibited behaviors? (Anti-pattern checks)
+
+## Structure of a Specification
 
 ### Required Sections
 
-#### 1. Context & Intent (Always Required)
-
-- **Purpose**: What problem does this system solve? What value does it create?
+#### 1. Intent & Scope
+- **Purpose**: What problem does this solve? What value does it create?
 - **Scope**: What is included and explicitly excluded?
-- **Stakeholders**: Who cares about this system and why?
-- **Success Definition**: How do we know if this system succeeds?
+- **Stakeholders**: Who cares and why?
+- **References**: What other specs does this depend on or extend?
 
-#### 2. Quality Attributes (Always Required)
+#### 2. Quality Attributes
+Explicit priorities for non-functional characteristics:
+- **Performance**: Throughput, latency, resource efficiency
+- **Reliability**: Availability, fault tolerance, data integrity
+- **Security**: Confidentiality, integrity, authentication, authorization
+- **Maintainability**: Evolvability, understandability, testability
+- **Usability**: Accessibility, learnability, efficiency
 
-Explicit priorities for the system's non-functional characteristics:
+**Specify trade-off order explicitly**: e.g., "Reliability > Performance > Features" prevents ambiguity when trade-offs arise during implementation.
 
-- Performance requirements (throughput, latency, resource usage)
-- Reliability requirements (availability, fault tolerance, data integrity)
-- Security requirements (confidentiality, integrity, authentication, authorization)
-- Maintainability requirements (evolvability, understandability, testability)
-- Usability requirements (accessibility, learnability, efficiency)
-
-**Specify priorities explicitly**: "Reliability > Performance > Feature richness" prevents ambiguity in trade-offs.
-
-#### 3. Domain Model (Required for Domain-Rich Systems)
-
-- Core concepts and their relationships
-- Business rules and invariants
-- Workflows and processes
-- Data lifecycle and ownership
-
-#### 4. Acceptance Criteria (Always Required)
-
+#### 3. Acceptance Criteria
 Formal, executable specifications of critical behaviors:
 
 ```gherkin
 Given [initial context/state]
 When [action or event occurs]
 Then [expected outcome]
-And [additional expectations]
 ```
 
-**Coverage guideline**: Specify the 20% of behaviors that represent 80% of the value and risk.
+**Coverage guideline**: The 20% of behaviors representing 80% of value and risk.
 
-#### 5. Architecture & Interfaces (Required for Multi-Component Systems)
+#### 4. Constraints & Assumptions
+- Technical, resource, and regulatory constraints
+- Explicit assumptions about operating environment
+- What happens when assumptions are violated
 
-- Major components and their responsibilities
-- Interaction patterns and protocols
-- Data flow and state management
-- Integration points and dependencies
+### Conditional Sections
 
-#### 6. Constraints & Assumptions (Always Required)
+| Section | Include When |
+|---------|--------------|
+| Domain Model | System has rich business logic—concepts, relationships, invariants, workflows |
+| Architecture & Interfaces | Multiple components interact; need to specify boundaries and protocols |
+| Examples & Scenarios | Abstract rules need concrete illustration for clarity |
+| Anti-patterns | Common mistakes are likely; explicitly state what NOT to do |
+| Glossary | Domain terminology may confuse cross-functional readers |
+| Migration Path | Modernizing existing system; need transition strategy |
 
-- Technical constraints (platforms, languages, frameworks—if truly necessary)
-- Resource constraints (budget, time, personnel)
-- Regulatory/compliance requirements
-- Explicit assumptions about the operating environment
+## Specification Boundaries & References
 
-### Optional Sections (Include When Valuable)
+### When to Split vs. Embed
 
-- **Examples & Scenarios**: Concrete illustrations of abstract requirements
-- **Anti-patterns**: Explicitly undesired approaches or solutions
-- **Migration Path**: For modernization, how to transition from current to target state
-- **Glossary**: Domain-specific terminology
-- **References**: Related documents, standards, or prior art
+**Split into separate spec when:**
+- The concern has independent stakeholders
+- It could evolve on a different cadence
+- It exceeds ~500 words of detail
+- It applies to multiple parent specs
 
-## Specification Synthesis Process
+**Embed when:**
+- The detail is essential context for understanding the parent
+- Splitting would create orphaned fragments
+- The audience is the same
 
-### From Heterogeneous Sources to Coherent Specification
+### Reference Format
 
-This process transforms unstructured or semi-structured information into a well-formed specification.
+Specifications reference others explicitly:
 
-#### Phase 1: Information Gathering & Categorization
+```markdown
+**See also**: [Authentication Spec](./auth/SPEC.md) for identity requirements
+**Implements**: [API Standards v2.1](../standards/api-v2.1.md)
+**Extended by**: [Mobile Client Spec](./clients/mobile.md)
+```
 
-**Given** source materials (code, docs, meeting notes, logs, tickets, observability data)  
-**When** beginning specification synthesis  
-**Then** categorize information by type:
+### Handling Circular References
 
-- **Intent signals**: User stories, feature requests, problem statements, meeting decisions about "what" and "why"
-- **Behavior evidence**: Test cases, user workflows, API usage patterns, integration tests
-- **Structural evidence**: Code architecture, module dependencies, database schemas, deployment diagrams
-- **Constraint evidence**: Configuration files, infrastructure specs, compliance docs, error budgets
-- **Implicit knowledge**: Code comments explaining "why", commit messages describing rationale, design decision records
+Interdependent specs may reference each other. This is acceptable when:
+- Each spec owns distinct concerns
+- References are to stable interfaces, not implementation details
+- The cycle can be broken for initial reading (one spec is "primary")
 
-#### Phase 2: Intent Extraction
+## Synthesis from Existing Systems
 
-**For each source material type:**
+> **Note**: Detailed synthesis methodology—extracting specs from code, docs, and observability data—is a separate concern. A dedicated synthesis spec should cover: information categorization, intent extraction from source types, conflict resolution, and validation loops.
 
-**Source Code:**
+**Key principles for synthesis:**
+1. **Observable behavior > stated intent**: What the system does reveals truth
+2. **Recent > historical**: Unless explicitly maintaining backward compatibility
+3. **Formal > informal**: Tests and schemas over comments and docs
+4. **Abstract to intent**: "Uses PostgreSQL" → "Requires ACID-compliant relational storage"
+5. **Document conflicts**: Unresolved contradictions become explicit assumptions requiring validation
 
-- Extract business logic patterns (not just syntax)
-- Identify invariants enforced through validation
-- Discover state machines and workflows
-- Map data models and relationships
-- Recognize error handling strategies (revealing assumptions about failure modes)
-
-**Documentation:**
-
-- Distinguish aspirational (intended design) from descriptive (actual behavior)
-- Extract decision rationale from design docs
-- Harvest examples and use cases
-- Identify explicit constraints and requirements
-
-**Meeting Minutes & Discussions:**
-
-- Extract decisions and their context
-- Identify unresolved questions (→ become explicit assumptions or research items)
-- Capture stakeholder priorities and trade-offs
-- Note rejected alternatives (anti-patterns)
-
-**Observability Data:**
-
-- Infer actual usage patterns vs. designed usage
-- Identify performance characteristics under real load
-- Discover implicit SLAs (what reliability users actually experience)
-- Detect failure modes and edge cases
-
-**Tickets & Issues:**
-
-- Map bug patterns to missing requirements or test cases
-- Extract feature evolution (what was added, why, when)
-- Identify recurring pain points (→ quality attribute requirements)
-
-#### Phase 3: Conflict Resolution
-
-**Given** overlapping or contradictory information from multiple sources  
-**When** synthesizing the specification  
-**Then** apply resolution priorities:
-
-1. **Observable behavior > Stated intent**: What the system actually does reveals truth
-2. **Recent > Historical**: Unless explicitly maintaining backward compatibility
-3. **Formal > Informal**: Tests and schemas over comments and docs
-4. **Explicit > Inferred**: Direct statements over interpretations
-5. **Stakeholder hierarchy**: When conflicts remain, defer to appropriate decision-maker
-
-**Document unresolved conflicts explicitly** as assumptions requiring validation.
-
-#### Phase 4: Abstraction & Generalization
-
-**Given** specific implementation details from source materials  
-**When** writing the specification  
-**Then** abstract to intent:
-
-- **Pattern**: Implementation uses PostgreSQL → **Intent**: "Requires durable, ACID-compliant relational storage"
-- **Pattern**: Code implements specific retry logic → **Intent**: "Must gracefully handle transient downstream failures"
-- **Pattern**: UI has specific layout → **Intent**: "Must present information with workflow X in context Y"
-
-**Preserve implementation details only when:**
-
-- Changing them would violate external contracts (API compatibility)
-- They're mandated by external constraints (regulatory requirements)
-- They're fundamental to the value proposition (performance characteristics)
-
-#### Phase 5: Validation & Refinement
-
-**Given** a draft specification  
-**When** validating completeness  
-**Then** verify against checklist:
-
-- [ ] Can a domain expert read this and confirm it captures their understanding?
-- [ ] Can an implementer generate a compliant system without guessing critical details?
-- [ ] Are success criteria clear and measurable?
-- [ ] Are all assumptions explicit?
-- [ ] Are priorities clear when trade-offs arise?
-- [ ] Can compliance be verified objectively?
-
-**Refinement loop:**
-
-1. Share specification with stakeholders (original developers, users, domain experts)
-2. Collect feedback on gaps, ambiguities, errors
-3. Update specification
-4. If synthesis was AI-assisted, generate test implementation and validate against acceptance criteria
-5. Repeat until convergence
+**Validation checklist for synthesized specs:**
+- [ ] Domain expert confirms it captures their understanding
+- [ ] Implementer can generate compliant system without guessing
+- [ ] Success criteria are clear and measurable
+- [ ] All assumptions are explicit
+- [ ] Compliance can be verified objectively
 
 ## Calibrating Specificity
 
-### Decision Framework for Detail Level
+### Decision Framework
 
-**For each potential specification element, ask:**
-
-1. **What is the cost of ambiguity here?**
-    
-    - High cost → Specify precisely (e.g., financial calculations, security policies)
-    - Low cost → Allow flexibility (e.g., internal data structure choices)
-2. **What is the cost of over-specification?**
-    
-    - Locks in implementation details that should evolve
-    - Creates unnecessarily rigid specifications that are hard to maintain
-    - Obscures important requirements in a sea of unimportant detail
-3. **What is the blast radius of getting this wrong?**
-    
-    - Affects external APIs or data formats → Specify exactly
-    - Internal implementation detail → Specify minimally
+For each element, ask:
+1. **Cost of ambiguity?** High → specify precisely. Low → allow flexibility.
+2. **Cost of over-specification?** Locks in details that should evolve? Obscures important requirements?
+3. **Blast radius of error?** External APIs → exact. Internal details → minimal.
 
 ### The Goldilocks Test
 
-**Too vague**: "The system should be fast"  
-**Too specific**: "All API responses must complete in 47.3ms at p99 under load of 1,247 requests/second with exactly 3 database queries per request"  
-**Just right**: "API responses must complete in <50ms at p99 under expected peak load (defined as 2× average traffic), maintaining this SLA while minimizing database round-trips"
+| Level | Example |
+|-------|---------|
+| Too vague | "The system should be fast" |
+| Too specific | "All responses in 47.3ms at p99 under 1,247 req/s with exactly 3 DB queries" |
+| Just right | "API responses <50ms at p99 under 2× average traffic" |
 
-## Anti-Patterns to Avoid
+## Anti-Patterns
 
-**Given** a specification-in-progress  
-**When** reviewing for quality  
-**Then** check for and eliminate these anti-patterns:
+| Anti-Pattern | Example ❌ | Fix ✓ |
+|--------------|-----------|-------|
+| Implementation as spec | "Use Redis with LRU, 1GB limit" | "Sub-10ms for repeated queries within 5min" |
+| Underspecified criticality | "Should be secure and reliable" | "SOC2 compliant, 99.9% availability" + tests |
+| Specification by example only | 50 scenarios, no rule | State rule, then 2-3 examples |
+| Hidden assumptions | Assumes stable internet | "Assumes continuous connectivity" |
+| Untestable requirements | "UI should be intuitive" | "New users complete X in <5min" |
+| Orphaned details | Detailed component, no context | Every detail connects to higher intent |
+| Context overloading | One spec covers everything | Split by bounded context, reference |
 
-### 1. Implementation Disguised as Specification
-
-❌ "Use a Redis cache with LRU eviction policy and 1GB memory limit"  
-✓ "Maintain sub-10ms response times for repeated queries within a 5-minute window"
-
-### 2. Underspecified Criticality
-
-❌ "The system should be secure and reliable"  
-✓ "Must achieve SOC2 compliance" + "Must maintain 99.9% availability" + specific acceptance tests
-
-### 3. Specification by Example Only
-
-❌ Providing 50 example scenarios without extracting the underlying rule  
-✓ State the rule explicitly, then provide 2-3 examples
-
-### 4. Hidden Assumptions
-
-❌ Spec assumes users have stable internet without stating it  
-✓ "Assumes: Users have continuous network connectivity; graceful degradation not required"
-
-### 5. Untestable Requirements
-
-❌ "The UI should be intuitive"  
-✓ "New users must complete workflow X without assistance in <5 minutes (measured via usability testing)"
-
-### 6. Orphaned Details
-
-❌ Including detailed specifications for components without explaining their role in the system  
-✓ Every detail connects to higher-level intent through clear hierarchy
-
-## Meta-Principle: Evolvability
+## Evolvability
 
 Specifications are living artifacts, not write-once documents.
 
 **Given** a specification for an evolving system  
-**When** the system changes over time  
-**Then** the specification should support evolution by:
+**Then** it supports evolution through:
+- **Versioning**: Spec version ↔ system version mapping; track what changed and why
+- **Modularity**: Component changes don't require full rewrites; bounded contexts limit blast radius
+- **Rationale preservation**: Captured "why" prevents future developers from breaking invariants for reasons already considered
+- **Assumption tracking**: As assumptions are validated or invalidated, update explicitly; stale assumptions are silent debt
 
-- **Versioning**: Track which version of spec corresponds to which system version
-- **Modularity**: Changes to one component's spec don't require rewriting the entire document
-- **Rationale preservation**: Captured "why" prevents future developers from breaking things for understood reasons
-- **Assumption tracking**: As assumptions are validated or invalidated, update explicitly
+**Evolution triggers**: When reality diverges from specification—through feature changes, discovered edge cases, or shifted requirements—update the spec first, then implement. The spec is the source of truth for intent.
 
-## Success Criteria for This Meta-Specification
+## Success Criteria (Self-Referential)
 
-**Given** someone using this specification to create specifications  
-**When** they produce a specification following this guidance  
-**Then** their specification should:
+This meta-specification must satisfy its own criteria. Validation:
 
-1. Enable reliable transformation to implementation (via AI or human developers)
-2. Be maintainable as the system evolves
-3. Serve as effective communication among stakeholders
-4. Provide objective validation criteria
-5. Balance precision with appropriate abstraction
-6. Take less time to create than exhaustive implementation documentation
-7. Preserve more valuable knowledge than source code alone
+### For Specifications Created Using This Guide
 
-**And** when used to synthesize specs from existing systems  
-**Then** the process should:
+**Given** someone following this specification  
+**When** they produce a specification  
+**Then** it:
+1. Enables reliable implementation (by AI or human)
+2. Remains maintainable as the system evolves
+3. Communicates effectively among stakeholders
+4. Provides objective validation criteria
+5. Balances precision with appropriate abstraction
+6. References other specs rather than duplicating concerns
+7. Is readable in one sitting by its intended audience
 
-1. Recover critical intent not obvious from code inspection
-2. Identify and document implicit assumptions
-3. Generalize appropriately from specific implementation choices
-4. Resolve contradictions between sources
-5. Produce specs sufficient to enable system modernization or reimplementation
+### For This Meta-Specification Itself
+
+| Criterion | Target | Validation |
+|-----------|--------|------------|
+| Word count | 1500-2500 | Automated check |
+| Readability | Single sitting (~15min) | User feedback |
+| Self-consistency | Follows own principles | Manual review |
+| Completeness | All required sections present | Checklist |
+| Appropriate references | Defers detail to other specs | Structural review |
+| No orphaned details | All elements connect to intent | Traceability |
+
+**Current assessment**: This spec references synthesis process as external, defines its own scope and boundaries, uses formalization appropriately (tables, BDD), and prioritizes intent over mechanism.
 
 ---
 
-## Notes on Using This Specification
+## Usage Notes
 
-This specification intentionally practices what it preaches:
+This specification practices what it preaches:
+- Hierarchy: context → principles → structure → calibration → validation
+- BDD criteria throughout
+- Intent before mechanism
+- Tables for structured comparisons, prose for explanation
+- Explicit anti-patterns and self-referential success criteria
 
-- Structured hierarchy (context → principles → process → validation)
-- BDD-style acceptance criteria throughout
-- Intent stated before mechanism
-- Appropriate use of formalization (lists for structure, prose for explanation)
-- Explicit anti-patterns
-- Meta-level success criteria
-
-It should be **adapted, not followed dogmatically**. Different domains, different systems, and different organizational contexts will require calibration of these principles.
+**Adapt, don't follow dogmatically.** Different domains require calibration of these principles.
