@@ -14,7 +14,7 @@ Specifications state desired outcomes. Mechanisms appear only when required.
 
 ### 3. Precision Where Ambiguity Is Costly
 
-Natural language provides context; formal structures provide precision. Formalize what must be unambiguous.
+Natural language provides context; formal structures provide precision.
 
 ### 4. Verifiability
 
