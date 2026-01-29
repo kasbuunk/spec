@@ -22,7 +22,7 @@ Specifications organize information in layers. Each specification owns one bound
 **Structural layers:**
 - **Context**: Boundaries, stakeholders, constraints
 - **Architecture**: Components, interactions, quality attributes
-- **Domain**: Business rules, workflows, data models
+- **Domain**: Core rules, workflows, data models
 - **Detail**: Implementation constraints (only where necessary)
 
 **Given** a reader at any layer  
@@ -42,12 +42,12 @@ Specifications prioritize _what_ and _why_ over _how_.
 
 Natural language provides context; formal structures provide precision.
 
-| High-cost ambiguity (formalize)     | Low-cost ambiguity (prose)     |
-| ----------------------------------- | ------------------------------ |
-| Critical business rules → BDD tests | Motivation and context         |
-| Data contracts → Schemas            | Design philosophy              |
-| State transitions → Diagrams        | Trade-off explanations         |
-| Quantitative requirements → Metrics | Examples and metaphors         |
+| High-cost ambiguity (formalize) | Low-cost ambiguity (prose) |
+| ------------------------------- | -------------------------- |
+| Critical rules and invariants   | Motivation and context     |
+| Data contracts and interfaces   | Design philosophy          |
+| State transitions and flows     | Trade-off explanations     |
+| Quantitative requirements       | Examples and metaphors     |
 
 ### 5. Verifiable Success Criteria
 
