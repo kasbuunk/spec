@@ -20,7 +20,7 @@ Natural language provides context; formal structures provide precision. Formaliz
 
 ### 4. Verifiability
 
-Every requirement has criteria that determine compliance. If compliance cannot be assessed, the requirement is incomplete.
+Every requirement has criteria that determine compliance.
 
 ## Anti-Patterns
 
