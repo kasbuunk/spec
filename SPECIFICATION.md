@@ -1,6 +1,6 @@
 # Specification
 
-A specification captures intent. It defines _what_ a system should achieve and _why_, enabling any interpreter—human or AI—to produce a functionally correct implementation. This document specifies how to write specifications, including itself.
+A specification captures intent. It defines _what_ a system should achieve and _why_, enabling any interpreter to produce a functionally correct implementation. This document specifies how to write specifications, including itself.
 
 ## Principles
 
@@ -21,8 +21,6 @@ Natural language provides context; formal structures provide precision. Formaliz
 ### 4. Verifiability
 
 Every requirement has criteria that determine compliance. If compliance cannot be assessed, the requirement is incomplete.
-
-A specification is complete when an interpreter can produce a compliant implementation without requiring clarification.
 
 ## Anti-Patterns
 
