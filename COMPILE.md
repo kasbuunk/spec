@@ -2,10 +2,12 @@
 
 Transform a specification into a representation that satisfies it. The representation may be source code, infrastructure, documentation, media, or any artifact that manifests the specified intent in a concrete form.
 
+Inverse of [DISTILL](DISTILL.md). The roundtrip is non-deterministic: compiling a distilled specification produces an equivalent representation, not necessarily an identical one.
+
 ## Requirements
 
 **Input**:
-- A specification (required): defines what the representation must achieve
+- A specification satisfying [SPECIFICATION.md](SPECIFICATION.md) (required): defines what the representation must achieve
 - Implementation guidance (optional): constraints on how to achieve it
 
 **Output**:

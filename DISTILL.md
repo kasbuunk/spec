@@ -2,7 +2,11 @@
 
 Extract the specification that a representation embodies. Given artifacts that manifest intent—source code, products, documents, recordings, interviews, observability data—distill the essential definition of what problem is solved and what value is created.
 
+Inverse of [COMPILE](COMPILE.md). The roundtrip is non-deterministic: compiling a distilled specification produces an equivalent representation, not necessarily an identical one.
+
 ## Requirements
+
+**Output** satisfies [SPECIFICATION.md](SPECIFICATION.md).
 
 **Input**:
 - One or more representations (required): artifacts that embody intent
