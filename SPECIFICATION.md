@@ -1,5 +1,28 @@
 # Specification for Creating Effective Specifications
 
+> **Version**: 1.0.0  
+> **Status**: Active  
+> **Last Updated**: 2026-01-29
+
+## Table of Contents
+
+1. [Intent](#intent)
+2. [Scope & Boundaries](#scope--boundaries)
+3. [Stakeholders](#stakeholders)
+4. [Quality Attributes](#quality-attributes)
+5. [Core Principles](#core-principles)
+6. [Structure of a Specification](#structure-of-a-specification)
+7. [Specification Boundaries & References](#specification-boundaries--references)
+8. [Synthesis from Existing Systems](#synthesis-from-existing-systems)
+9. [Calibrating Specificity](#calibrating-specificity)
+10. [Anti-Patterns](#anti-patterns)
+11. [Constraints & Assumptions](#constraints--assumptions)
+12. [Evolvability](#evolvability)
+13. [Success Criteria](#success-criteria-self-referential)
+14. [References](#references)
+
+---
+
 ## Intent
 
 This specification defines how to construct specifications that effectively capture system intent and enable reliable transformation between abstraction levels. It applies to any complex system—software, organizational processes, physical systems, or hybrid domains.
@@ -21,6 +44,27 @@ This specification defines how to construct specifications that effectively capt
 - Governance and versioning workflows
 
 **Target length guidance**: A specification should be readable in one sitting by its intended audience. For a meta-spec like this: ~1500-2500 words. For system specs: scale with complexity, but prefer multiple linked specs over monolithic documents.
+
+## Stakeholders
+
+| Stakeholder | Interest | How This Spec Serves Them |
+|-------------|----------|---------------------------|
+| **Specification Authors** | Need guidance on creating effective specs | Provides principles, structure, and anti-patterns |
+| **Implementers** (human & AI) | Need unambiguous, actionable requirements | Emphasizes testable criteria and clarity |
+| **Reviewers & Auditors** | Need to validate spec quality | Provides success criteria and checklists |
+| **System Architects** | Need to decompose complexity | Covers hierarchical decomposition and boundaries |
+| **Domain Experts** | Need specs to capture business intent | Prioritizes "what" and "why" over "how" |
+
+## Quality Attributes
+
+**Priority order** (highest to lowest): Clarity > Completeness > Brevity > Formality
+
+| Attribute | Target | Rationale |
+|-----------|--------|-----------|
+| **Clarity** | Unambiguous interpretation by target audience | Primary purpose of any specification |
+| **Completeness** | All required elements present; no gaps | Enables reliable implementation |
+| **Brevity** | Minimal words for maximum understanding | Respects reader attention; reduces maintenance burden |
+| **Formality** | Appropriate rigor for cost of ambiguity | Balances precision with accessibility |
 
 ## Core Principles
 
@@ -73,7 +117,8 @@ Every specification includes objective criteria to validate implementations.
 
 **Given** a claimed implementation  
 **When** validation is performed  
-**Then** compliance can be assessed deterministically
+**Then** compliance can be assessed deterministically  
+**And** pass/fail is unambiguous to any qualified reviewer
 
 **Criteria types:**
 - **Functional**: Does it do what the spec says? (BDD tests)
@@ -105,12 +150,16 @@ Explicit priorities for non-functional characteristics:
 Formal, executable specifications of critical behaviors:
 
 ```gherkin
-Given [initial context/state]
-When [action or event occurs]
-Then [expected outcome]
+Feature: [Capability being specified]
+  
+  Scenario: [Specific case]
+    Given [initial context/state]
+    When [action or event occurs]
+    Then [expected outcome]
+    And [additional verifiable outcomes]
 ```
 
-**Coverage guideline**: The 20% of behaviors representing 80% of value and risk.
+**Coverage guideline**: The 20% of behaviors representing 80% of value and risk. Prioritize edge cases and failure modes over happy paths.
 
 #### 4. Constraints & Assumptions
 - Technical, resource, and regulatory constraints
@@ -123,10 +172,12 @@ Then [expected outcome]
 |---------|--------------|
 | Domain Model | System has rich business logic—concepts, relationships, invariants, workflows |
 | Architecture & Interfaces | Multiple components interact; need to specify boundaries and protocols |
+| State Diagrams | System has complex state transitions or lifecycle management |
 | Examples & Scenarios | Abstract rules need concrete illustration for clarity |
 | Anti-patterns | Common mistakes are likely; explicitly state what NOT to do |
 | Glossary | Domain terminology may confuse cross-functional readers |
 | Migration Path | Modernizing existing system; need transition strategy |
+| Security Model | System handles sensitive data or untrusted input |
 
 ## Specification Boundaries & References
 
@@ -145,12 +196,13 @@ Then [expected outcome]
 
 ### Reference Format
 
-Specifications reference others explicitly:
+Specifications reference others explicitly with relationship type:
 
 ```markdown
-**See also**: [Authentication Spec](./auth/SPEC.md) for identity requirements
-**Implements**: [API Standards v2.1](../standards/api-v2.1.md)
-**Extended by**: [Mobile Client Spec](./clients/mobile.md)
+**Depends on**: [Authentication Spec](./auth/SPEC.md) — identity requirements
+**Implements**: [API Standards v2.1](../standards/api-v2.1.md) — REST conventions
+**Extended by**: [Mobile Client Spec](./clients/mobile.md) — platform-specific details
+**Supersedes**: [Legacy Auth Spec](./auth/SPEC-v1.md) — deprecated approach
 ```
 
 ### Handling Circular References
@@ -162,14 +214,17 @@ Interdependent specs may reference each other. This is acceptable when:
 
 ## Synthesis from Existing Systems
 
-> **Note**: Detailed synthesis methodology—extracting specs from code, docs, and observability data—is a separate concern. A dedicated synthesis spec should cover: information categorization, intent extraction from source types, conflict resolution, and validation loops.
+> **Note**: Detailed synthesis methodology—extracting specs from code, docs, and observability data—belongs in a separate `SYNTHESIS.md` specification covering: information categorization, intent extraction from source types, conflict resolution, and validation loops.
 
 **Key principles for synthesis:**
-1. **Observable behavior > stated intent**: What the system does reveals truth
-2. **Recent > historical**: Unless explicitly maintaining backward compatibility
-3. **Formal > informal**: Tests and schemas over comments and docs
-4. **Abstract to intent**: "Uses PostgreSQL" → "Requires ACID-compliant relational storage"
-5. **Document conflicts**: Unresolved contradictions become explicit assumptions requiring validation
+
+| Principle | Meaning | Example |
+|-----------|---------|---------|
+| Observable behavior > stated intent | What the system does reveals truth | Logs show retry logic not documented |
+| Recent > historical | Unless explicitly maintaining backward compatibility | Current API contract over legacy docs |
+| Formal > informal | Tests and schemas over comments and docs | Schema says `required`, comment says "optional" → required |
+| Abstract to intent | Extract the "why" from the "how" | "Uses PostgreSQL" → "Requires ACID-compliant relational storage" |
+| Document conflicts | Unresolved contradictions become explicit assumptions | Note conflicting sources, require stakeholder resolution |
 
 **Validation checklist for synthesized specs:**
 - [ ] Domain expert confirms it captures their understanding
@@ -189,11 +244,11 @@ For each element, ask:
 
 ### The Goldilocks Test
 
-| Level | Example |
-|-------|---------|
-| Too vague | "The system should be fast" |
-| Too specific | "All responses in 47.3ms at p99 under 1,247 req/s with exactly 3 DB queries" |
-| Just right | "API responses <50ms at p99 under 2× average traffic" |
+| Level | Example | Problem |
+|-------|---------|---------|
+| Too vague | "The system should be fast" | Not measurable; open to interpretation |
+| Too specific | "All responses in 47.3ms at p99 under 1,247 req/s with exactly 3 DB queries" | Over-constrains implementation; brittle |
+| Just right | "API responses <50ms at p99 under 2× average traffic" | Measurable, realistic, leaves room for optimization |
 
 ## Anti-Patterns
 
@@ -206,6 +261,25 @@ For each element, ask:
 | Untestable requirements | "UI should be intuitive" | "New users complete X in <5min" |
 | Orphaned details | Detailed component, no context | Every detail connects to higher intent |
 | Context overloading | One spec covers everything | Split by bounded context, reference |
+| Missing version control | No history or changelog | Version header + change rationale |
+| Stale specification | Spec diverges from reality | Evolution triggers prompt updates |
+
+## Constraints & Assumptions
+
+### Constraints
+
+- **Language**: Written specifications assume readers share a common working language and technical vocabulary level
+- **Medium**: This specification assumes plain-text formats (Markdown) for portability and version control compatibility
+- **Scope**: One specification per bounded context; cross-cutting concerns require explicit coordination
+
+### Assumptions
+
+| Assumption | Implication if Violated |
+|------------|------------------------|
+| Readers have domain context | Add glossary and more examples |
+| Specifications are version-controlled | Add manual change tracking |
+| Stakeholders can be identified | Escalate to define ownership before proceeding |
+| Implementation feedback loops exist | Build validation checkpoints into process |
 
 ## Evolvability
 
@@ -262,3 +336,16 @@ This specification practices what it preaches:
 - Explicit anti-patterns and self-referential success criteria
 
 **Adapt, don't follow dogmatically.** Different domains require calibration of these principles.
+
+## References
+
+**Related Standards & Frameworks:**
+- [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119) — Key words for requirement levels (MUST, SHOULD, MAY)
+- [Gherkin Syntax](https://cucumber.io/docs/gherkin/) — BDD specification format
+- [C4 Model](https://c4model.com/) — Hierarchical architecture documentation
+- [Domain-Driven Design](https://www.domainlanguage.com/dml/) — Bounded contexts and ubiquitous language
+
+**Specifications to Create Alongside This One:**
+- `SYNTHESIS.md` — Extracting specifications from existing systems
+- `TOOLING.md` — Formats, linting, templates, and automation
+- `GOVERNANCE.md` — Versioning workflows, approval processes, ownership
