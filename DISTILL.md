@@ -1,17 +1,17 @@
 # Distill
 
-Representation → specification. Inverse of [MANIFEST](MANIFEST.md).
-
-The roundtrip manifest(distill(r)) ≈ r is non-deterministic: equivalent, not identical.
+Representation → specification.
 
 **Input**: Artifacts embodying intent; optional context (provenance, authority, recency).
 
-**Output**: A specification satisfying [SPECIFICATION.md](SPECIFICATION.md) that the input would satisfy.
+**Output**: Specification per [SPECIFICATION.md](SPECIFICATION.md) that the input would satisfy.
 
-**Correctness**: Manifesting the output produces a representation functionally equivalent to the input.
+**Correctness**: Manifesting the output yields functionally equivalent representation.
 
-**Abstraction**: Generalize mechanism to intent. Include implementation details only when they are the requirement.
+**Abstraction**: Generalize mechanism to intent. Include implementation only when required.
 
-**Conflict resolution** (decreasing precedence): observable behavior, recent, formal, explicit.
+**Conflict resolution**: Observable behavior > recent > formal > explicit.
 
-**Incompleteness**: State assumptions explicitly where intent cannot be determined.
+**Incompleteness**: State assumptions where intent is underdetermined.
+
+**Inverse**: [MANIFEST](MANIFEST.md). Roundtrip manifest(distill(r)) ≈ r preserves function, not identity.

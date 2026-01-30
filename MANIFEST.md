@@ -1,11 +1,13 @@
 # Manifest
 
-Specification → representation. Inverse of [DISTILL](DISTILL.md).
+Specification → representation.
 
-**Input**: A specification satisfying [SPECIFICATION.md](SPECIFICATION.md); optional implementation guidance.
+**Input**: Specification per [SPECIFICATION.md](SPECIFICATION.md); optional guidance.
 
-**Output**: An artifact satisfying the specification.
+**Output**: Artifact satisfying the specification.
 
-**Correctness**: Compliance is determined by the specification's verifiability criteria.
+**Correctness**: Per specification's verifiability criteria.
 
-**Freedom**: Any aspect unconstrained by specification or guidance is interpreter's choice. Guidance restricts but never contradicts specification.
+**Freedom**: Unconstrained aspects are interpreter's choice. Guidance restricts, never contradicts.
+
+**Inverse**: [DISTILL](DISTILL.md). Roundtrip distill(manifest(s)) ≈ s preserves intent, not form.
