@@ -1,29 +1,17 @@
 # Distill
 
-Extract the specification that a representation embodies. Given artifacts that manifest intent—source code, products, documents, recordings, interviews, observability data—distill the essential definition of what problem is solved and what value is created.
+Representation → specification. Inverse of [MANIFEST](MANIFEST.md).
 
-Inverse of [MANIFEST](MANIFEST.md). The roundtrip is non-deterministic: manifesting a distilled specification produces an equivalent representation, not necessarily an identical one.
+The roundtrip manifest(distill(r)) ≈ r is non-deterministic: equivalent, not identical.
 
-## Requirements
+**Input**: Artifacts embodying intent; optional context (provenance, authority, recency).
 
-**Output** satisfies [SPECIFICATION.md](SPECIFICATION.md).
+**Output**: A specification satisfying [SPECIFICATION.md](SPECIFICATION.md) that the input would satisfy.
 
-**Input**:
-- One or more representations (required): artifacts that embody intent
-- Context signals (optional): metadata about provenance, authority, recency
+**Correctness**: Manifesting the output produces a representation functionally equivalent to the input.
 
-**Output**:
-- A specification that the input representations would satisfy
-- The specification captures intent, not mechanism, except where mechanism is the intent
+**Abstraction**: Generalize mechanism to intent. Include implementation details only when they are the requirement.
 
-**Correctness**: Manifesting the output specification (with appropriate implementation guidance) would produce a representation functionally equivalent to the input.
+**Conflict resolution** (decreasing precedence): observable behavior, recent, formal, explicit.
 
-**Conflict resolution**: When representations contradict:
-- Observable behavior over stated intent
-- Recent over historical (unless backward compatibility is explicit)
-- Formal over informal
-- Explicit over inferred
-
-**Abstraction**: The specification generalizes from specific implementation choices to the intent they serve. Implementation details appear only when they are the requirement (external contracts, regulatory mandates, value-defining characteristics).
-
-**Incompleteness acknowledgment**: Where intent cannot be determined from available artifacts, the specification explicitly states assumptions requiring validation.
+**Incompleteness**: State assumptions explicitly where intent cannot be determined.
