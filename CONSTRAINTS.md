@@ -2,7 +2,7 @@
 
 Bounds on representation.
 
-A constraints instance specifies properties the output must exhibit, in the vocabulary of its domain. It restricts the solution space without prescribing how to search it.
+A constraints instance specifies properties the output must exhibit, in the vocabulary of its domain.
 
 **Composability**: Constraints combine. Conflicts surface for resolution.
 
