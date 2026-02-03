@@ -2,51 +2,45 @@
 
 How manifestation proceeds.
 
-**Input**: Parameters governing execution: risk appetite, incrementality, verification, conflict resolution.
+A traverse instance configures how an interpreter executes [manifest](MANIFEST.md)(specification, constraints) → representation. It governs the journey, not the destination.
 
-**Output**: Configured interpreter behavior.
-
-**Scope**: Traverse addresses the *how*, not the *what*. Output properties belong in [CONSTRAINTS](CONSTRAINTS.md).
-
-**Method**: The interpreter executes [MANIFEST](MANIFEST.md) to produce a representation from specification and constraints. Traverse governs that execution.
-
-**Interpreter-agnostic**: Applies to any entity executing manifest—human, agent, hybrid, swarm, or organization.
+**Interpreter-agnostic**: Human, agent, hybrid, swarm, or organization.
 
 ## Principles
 
-### 1. Incrementality
+### 1. Step Size
 
-Manifestation may proceed in steps. Traverse specifies granularity: how large each step, when to checkpoint, when to seek confirmation.
+How much work before reassessment. Larger steps risk wasted effort on wrong paths. Smaller steps incur overhead. Traverse specifies the granularity appropriate to the uncertainty.
 
-### 2. Risk Appetite
+### 2. Direction Assessment
 
-How much uncertainty is tolerable before surfacing for review? Traverse specifies the threshold between autonomy and consultation.
+How to determine if progress moves toward the goal. Traverse specifies the method: automated verification, manual inspection, user feedback, formal proof, simulation, or other. The method's cost must be proportionate to the cost of misdirection.
 
-### 3. Conflict Surfacing
+### 3. Course Correction
 
-When constraints tension or specification gaps appear, traverse specifies behavior: ask, assume, flag for later, or halt.
+How to respond when assessment reveals drift. Traverse specifies: adjust and continue, backtrack to checkpoint, abandon path, or surface for decision. Not all paths require full visibility—sometimes trying is cheaper than planning.
 
-### 4. Verification Cadence
+### 4. Uncertainty Tolerance
 
-How often to confirm progress aligns with intent. Traverse specifies frequency and depth of validation.
+How much ambiguity the interpreter absorbs before surfacing. High tolerance enables autonomy; low tolerance ensures alignment. Traverse specifies the threshold.
 
-### 5. Reversibility
+### 5. Verification Depth
 
-Can the interpreter backtrack? Traverse specifies whether to checkpoint state, how far to unwind on failure, and when to abandon a path.
+How rigorously to confirm correctness. Full verification is rarely economical. Traverse specifies the appropriate level: existence checks, sampling, coverage targets, invariant preservation, or proof. The choice reflects the cost of undetected error.
 
 ## Instance Requirements
 
-A traverse instance must clarify:
+A traverse instance specifies:
 
-- Step size and checkpoint frequency
-- When to proceed autonomously vs. surface for decision
-- How to handle ambiguity, gaps, and constraint tension
-- Verification expectations at each stage
-- Conditions for backtracking or abandoning a path
+- Step granularity
+- Assessment method and frequency
+- Correction strategy
+- Uncertainty threshold
+- Verification approach and depth
 
 ## Anti-Patterns
 
-- **Unstated risk appetite**: Interpreter cannot calibrate caution without knowing stakes
-- **Verification without criteria**: Checkpoints that don't specify what to check
-- **Conflict avoidance**: Silently resolving tensions that should surface
-- **One-size-fits-all**: Applying uniform process to heterogeneous work
+- **Uniform rigor**: Applying equal verification to unequal risk
+- **Assessment without method**: Checkpoints that don't specify how to evaluate
+- **Implicit autonomy**: Unstated expectations on when to proceed vs. consult
+- **Verification theater**: Process that appears rigorous but doesn't catch misdirection
