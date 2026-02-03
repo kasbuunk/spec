@@ -1,8 +1,8 @@
 # Traverse
 
-How manifestation proceeds.
+How transformation proceeds.
 
-A traverse instance configures how an interpreter executes [manifest](MANIFEST.md)(specification, constraints) → representation.
+A traverse instance configures how an interpreter executes a transformation—whether [manifest](MANIFEST.md) (specification → representation) or [distill](DISTILL.md) (representation → specification).
 
 **Interpreter-agnostic**: Human, agent, hybrid, swarm, or organization.
 

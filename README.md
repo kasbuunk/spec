@@ -8,7 +8,7 @@ Principles for writing specifications that capture intent, not implementation.
 - [MANIFEST.md](MANIFEST.md) — Transform specification → representation
 - [DISTILL.md](DISTILL.md) — Extract representation → specification
 - [CONSTRAINTS.md](CONSTRAINTS.md) — Bounds on representation
-- [TRAVERSE.md](TRAVERSE.md) — How manifestation proceeds
+- [TRAVERSE.md](TRAVERSE.md) — How transformation proceeds
 
 ## Usage
 
@@ -39,5 +39,6 @@ Provide to the interpreter:
 1. [DISTILL.md](DISTILL.md)
 2. Representations: source code, documents, recordings, interviews, or other artifacts
 3. Context signals (optional): which sources to trust when they conflict
+4. A traverse instance satisfying [TRAVERSE.md](TRAVERSE.md)
 
-The interpreter produces a specification instance that captures the intent embodied in the representations.
+The interpreter proceeds as the traverse instance specifies, producing a specification instance that captures the intent embodied in the representations.
