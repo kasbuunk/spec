@@ -6,13 +6,13 @@ A constraints instance specifies properties the output must exhibit. It restrict
 
 **Domain-agnostic**: Constraints inherit structure from their domain. This specification does not prescribe categories.
 
-**Composability**: Constraints combine. Non-orthogonal constraints may tension; resolution surfaces as discussion.
+**Composability**: Constraints combine. Conflicts surface for resolution.
 
 ## Principles
 
 ### 1. Restrict, Never Contradict
 
-Constraints narrow the solution space defined by the specification. They cannot override specification requirements. Contradiction surfaces for resolution.
+Constraints narrow the solution space. They cannot override specification requirements.
 
 ### 2. Explicit Property
 
