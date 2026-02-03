@@ -2,7 +2,7 @@
 
 How manifestation proceeds.
 
-A traverse instance configures how an interpreter executes [manifest](MANIFEST.md)(specification, constraints) → representation. It governs the journey, not the destination.
+A traverse instance configures how an interpreter executes [manifest](MANIFEST.md)(specification, constraints) → representation.
 
 **Interpreter-agnostic**: Human, agent, hybrid, swarm, or organization.
 

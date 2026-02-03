@@ -2,9 +2,7 @@
 
 Bounds on representation.
 
-A constraints instance specifies properties the output must exhibit. It restricts the solution space without prescribing how to search it.
-
-**Domain-agnostic**: Constraints inherit structure from their domain. This specification does not prescribe categories.
+A constraints instance specifies properties the output must exhibit, in the vocabulary of its domain. It restricts the solution space without prescribing how to search it.
 
 **Composability**: Constraints combine. Conflicts surface for resolution.
 
@@ -17,10 +15,6 @@ Constraints narrow the solution space. They cannot override specification requir
 ### 2. Explicit Property
 
 Each constraint names the property it bounds.
-
-### 3. Domain Language
-
-Constraints speak the vocabulary of their domain.
 
 ## Anti-Patterns
 
